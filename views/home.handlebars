@@ -1,4 +1,17 @@
+<h3>Movies</h3>
 <p>{{#each movies}}
-    <p>Movie: <a href="detail?movie={{movie}}"  >{{movie}}</a> </p>
-    {{/each}}
+<p>Movie: <a href="detail?movie={{movie}}">{{movie}}</a> </p>
+{{/each}}
 </p>
+<div id="root"></div>
+
+<script type="text/babel">
+    const movies = {{{ movies }}}
+    console.log(movies)
+
+    const Movies = (props) => {
+        const listItems = movies.map((item) => <li key={item._id}><a href={"detail?movie="+item.movie}>{item.movie}</a></li>);
+            return <ul>{listItems}</ul>
+    }
+    ReactDOM.render(<div><Movies /></div>, document.getElementById('root'));
+</script>

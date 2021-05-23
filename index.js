@@ -62,7 +62,7 @@ app.post('/api/movies/delete', (req, res, next) => {
 app.get('/', (req, res) => {
     Movie.find({}).lean()
         .then((movies) => {
-            res.render('home', { layout: 'index', movies });
+            res.render('home', { layout: 'index', movies: JSON.stringify(movies) });
         })
         .catch(err => next(err));
     
