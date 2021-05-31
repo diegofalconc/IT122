@@ -1,4 +1,4 @@
-<h3>Movies</h3>
+
 <p>{{#each movies}}
 <p>Movie: <a href="detail?movie={{movie}}">{{movie}}</a> </p>
 {{/each}}
@@ -7,11 +7,62 @@
 
 <script type="text/babel">
     const movies = {{{ movies }}}
-    console.log(movies)
+    //console.log(movies)
+
+
 
     const Movies = (props) => {
-        const listItems = movies.map((item) => <li key={item._id}><a href={"detail?movie="+item.movie}>{item.movie}</a></li>);
+        const listItems = movies.map((item) => <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.movie}</li>);
             return <ul>{listItems}</ul>
     }
-    ReactDOM.render(<div><Movies /></div>, document.getElementById('root'));
+
+    const ItemDetail = (props) => {
+        return <div>
+            <h3>Details</h3>
+            <form>
+                    movie: <input onChange={props.handleEdit} type="text" name="movie" value={props.item.movie || ""}/>
+                    director: <input onChange={props.handleEdit} type="text" name="director" value={props.item.director || ""}/>
+                    date: <input onChange={props.handleEdit} type="text" name="year" value={props.item.year || ""}/>
+                    theme: <input onChange={props.handleEdit} type="text" name="theme" value={props.item.theme || ""}/>
+            </form>
+            <button onClick={props.handleClear}> Clear </button>
+            <button onClick={props.handleDelete}> Delete </button>
+            </div>
+    }
+
+class MoviesApp extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            items: {{{ movies }}},
+            currentItem: { }
+        }
+        this.selectItem = this.selectItem.bind(this);
+    }
+        selectItem = (event) => {
+        console.log(event.target)
+        console.log(event.target.innerText)
+        const found = this.state.items.find((item) => {
+            return item.movie === event.target.innerText;
+        });
+
+        this.setState({currentItem: found})
+    }
+        render(){
+            return (
+            <div> <h1> Movies </h1>
+                <Movies data={this.state.items} clickHandler={this.selectItem} />
+                <ItemDetail item={this.state.currentItem}/>
+            </div>
+            );
+        }
+
+        //this.selectItem = this.selectItem.bind(this);
+        //this.handleClear = this.handleClear.bind(this);
+        //this.handleEdit = this.handleEdit.bind(this);
+        //this.handleDelete = this.handleDelete.bind(this);
+    }
+
+
+    ReactDOM.render(<div><MoviesApp /></div>, document.getElementById('root'));
 </script>
