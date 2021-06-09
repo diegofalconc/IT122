@@ -1,31 +1,37 @@
 let movies = [
-    { movie: "The Last Emperor", director: "Bernardo Bertolucci", year: "1987", theme: "Drama"},
-    { movie: "The Godfather", director: "Francis Ford Coppola", year: "1972", theme: "Drama"},
-    { movie: "Godzilla vs Kong", director: "Adam Wingard", year: "2021", theme: "Action"},
-    { movie: "Star Wars: A new Hope", director: "George Lucas", year: "1977", theme: "Fantasy"},
-    { movie: "Titanic", director: "James Cameron", year: "1997", theme: "Drama"},
+    { movie: "The Last Emperor", director: "Bernardo Bertolucci", year: "1987", theme: "Drama" },
+    { movie: "The Godfather", director: "Francis Ford Coppola", year: "1972", theme: "Drama" },
+    { movie: "Godzilla vs Kong", director: "Adam Wingard", year: "2021", theme: "Action" },
+    { movie: "Star Wars: A new Hope", director: "George Lucas", year: "1977", theme: "Fantasy" },
+    { movie: "Titanic", director: "James Cameron", year: "1997", theme: "Drama" },
 
 ]
 
-function getAll(){
+function getAll() {
 
     return movies;
 }
 
-function getItem(val){
-    return movies.find((item) => {
-        return item.title.toLowerCase() === title.toLoverCase();
+function getItem(val) {
+    var itemtoreturn;
+    movies.forEach(function (item, index, object) {
+       
+        if (item.movie === val) {
+            itemtoreturn = item;
+        }
     });
+    return itemtoreturn;
+
 }
 
-function addItem(newItem){
+function addItem(newItem) {
     let repeated = false;
-    movies.forEach(function(item, index, object){
-        if (item.movie === newItem.movie){
+    movies.forEach(function (item, index, object) {
+        if (item.movie === newItem.movie) {
             repeated = true;
         }
     });
-    if(!repeated){
+    if (!repeated) {
         movies.push(newItem);
         console.log("Data Added Succesfully");
         return newItem;
@@ -34,23 +40,23 @@ function addItem(newItem){
     }
 }
 
-function deleteItem(Item){
+function deleteItem(Item) {
     let deleted = false;
-    movies.forEach(function(item, index, object){
-        if (item.movie === Item.movie){
-            object.splice(index,1);
+    movies.forEach(function (item, index, object) {
+        if (item.movie === Item.movie) {
+            object.splice(index, 1);
             console.log("Data deleted Succesfully");
             deleted = true;
         }
     });
-    if(!deleted){
+    if (!deleted) {
         console.log("Data isn't present in the database");
         return deleted;
-    }else {
-        
+    } else {
+
         return deleted;
     }
 }
 
-
+getItem('The Last Emperor');
 export { movies, getAll, getItem, addItem, deleteItem };

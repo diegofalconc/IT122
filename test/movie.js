@@ -3,8 +3,10 @@ import * as movie from "../data.js";
 
 describe("Get Movie module", () => {
  it("returns requested movie", function() {
-   var result = movie.getItem("The Last Emperor");
-   expect(result).to.deep.equal({movie: "The Last Emperor", director:"Bernardo Bertolucci", year: "1987", theme: "Drama"});
+  var object = { movie: "The Last Emperor", director: "Bernardo Bertolucci", year: "1987", theme: "Drama"};
+   var result = movie.getItem('The Last Emperor');
+   console.log(result);
+   expect(result).to.deep.equal(object);
  });
 
  it("fails w/ invalid movie", () => {
