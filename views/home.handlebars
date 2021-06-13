@@ -5,42 +5,20 @@
     //console.log(movies)
 
 
-
-    const Movies = (props) => {
-        const listItems = movies.map((item) => <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.movie}</li>);
-        return <ul>{listItems}</ul>
-    }
-
-    const ItemDetail = (props) => {
-        return <div>
-            <h3>Details</h3>
-            <form>
-                movie: <input onChange={props.handleChange} type="text" name="movie" value={props.item.movie || ""} />
-                    director: <input onChange={props.handleChange} type="text" name="director" value={props.item.director || ""} />
-                    date: <input onChange={props.handleChange} type="text" name="year" value={props.item.year || ""} />
-                    theme: <input onChange={props.handleChange} type="text" name="theme" value={props.item.theme || ""} />
-            </form>
-            <button name="clear" onClick={props.clearForm}> Clear </button>&nbsp;
-            <button name="save" onClick={props.saveItem}>Save</button>&nbsp;
-            <button name="delete" onClick={props.deleteItem}> Delete </button>&nbsp;
-            </div>
-    }
-
     class MoviesApp extends React.Component {
         constructor(props) {
             super(props);
             this.state = {
                 items: {{{movies}}},
                 currentItem: {}
-        };
-        
-    
+    };
     this.selectItem = this.selectItem.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
     this.saveItem = this.saveItem.bind(this);
     this.deleteitem = this.deleteItem.bind(this);
     }
+    
     selectItem = (event) => {
         console.log(event.target)
         console.log(event.target.innerText)
@@ -50,6 +28,7 @@
 
         this.setState({ currentItem: found })
     }
+
     handleChange = (event) => {
         console.log(event.target);
         let newItem = this.state.currentItem;
@@ -62,9 +41,6 @@
     }
 
     saveItem = () => {
-
-
-
         if (this.state.currentItem == {}) return
         let newItem = this.state.currentItem;
 
@@ -76,13 +52,16 @@
             .then(res => res.json())
             .then((json) => {
                 console.log(json)
+                let newList = this.state.items;
                 if (json.updated === 0) {
                     console.log("Test")
                     newItem._id = json._id;
-                    let newList = this.state.items;
+                    
+                    console.log(newList);
                     newList.push(newItem);
                     this.setState({ items: newList });
                 }
+                console.log(this.state.items)
             });
 
     }
@@ -109,10 +88,11 @@
             })
 
     }
+    
     render(){
         return (
             <div> <h1> Movies </h1>
-                <Movies data={this.state.items} clickHandler={this.selectItem} />
+                <Movies items={this.state.items} clickHandler={this.selectItem} />
                 <ItemDetail
                     item={this.state.currentItem}
                     handleChange={this.handleChange}
@@ -126,8 +106,26 @@
         );
     }
 
-        }
+}
+    const Movies = (props) => {
+        const listItems = props.items.map((item) => <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.movie}</li>);
+        return <ul>{listItems}</ul>
+    }
 
+    const ItemDetail = (props) => {
+        return <div>
+            <h3>Details</h3>
+            <form>
+                movie: <input onChange={props.handleChange} type="text" name="movie" value={props.item.movie || ""} />
+                director: <input onChange={props.handleChange} type="text" name="director" value={props.item.director || ""} />
+                date: <input onChange={props.handleChange} type="text" name="year" value={props.item.year || ""} />
+                theme: <input onChange={props.handleChange} type="text" name="theme" value={props.item.theme || ""} />
+            </form>
+            <button name="clear" onClick={props.clearForm}> Clear </button>&nbsp;
+            <button name="save" onClick={props.saveItem}>Save</button>&nbsp;
+            <button name="delete" onClick={props.deleteItem}> Delete </button>&nbsp;
+        </div>
+    }
 
     ReactDOM.render(<div><MoviesApp /></div>, document.getElementById('root'));
 </script>
